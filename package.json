@@ -1,0 +1,18 @@
+{
+  "name": "cookie-confirm",
+  "version": "1.0.0",
+  "description": "Customisable cookie consent messages.",
+  "main": "dist/index.js",
+  "repository": "https://github.com/feinwarusoftware/cookie-confirm",
+  "author": "Dragon1320 <lukasznie1320@gmail.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "tsc src/index.ts --outDir dist",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^3.6.4"
+  }
+}
