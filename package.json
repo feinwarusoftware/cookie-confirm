@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "Customisable cookie consent messages.",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": "https://github.com/feinwarusoftware/cookie-confirm",
   "author": "Dragon1320 <lukasznie1320@gmail.com>",
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "build": "tsc src/index.ts --outDir dist",
+    "build": "tsc",
     "clean": "rm -rf dist"
   },
   "dependencies": {},
