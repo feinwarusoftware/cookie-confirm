@@ -105,6 +105,15 @@ enum ConsentPalette {
   FEIN_GREEN
 }
 
+const themePresets = {
+  [ConsentPalette.FEIN_GREEN]: {
+
+  },
+  [ConsentPalette.FEIN_ORANGE]: {
+
+  }
+};
+
 // The actual fucking options that required all the above shitty code.
 interface IConsentOptions {
   style?: IConsentStyle,
@@ -112,11 +121,12 @@ interface IConsentOptions {
   presets?: IConsentPresets
 }
 
-function createCookieConsent(options: IConsentOptions, parent: HTMLElement = document.body) {
-  
+function createCookieConsent(options: IConsentOptions, parent: HTMLElement = document.body) { 
+  // Used to apply all classes to consentMessage in one call.
+  let classes: string[] = [];
   // Main consent message div.
   const consentMessage = document.createElement("div");
-  consentMessage.classList.add("cookie-confirm");
+  classes = [...classes, "cookie-confirm"];
 
   // Consent message body.
   const bodySection = document.createElement("div");
@@ -165,57 +175,58 @@ function createCookieConsent(options: IConsentOptions, parent: HTMLElement = doc
   // Position:
   switch (presets.position) {
     case ConsentPosition.BANNER_BOTTOM: {
-
+      classes = [...classes, "cookie-confirm--banner", "cookie-confirm--bottom"];
       break;
     }
     case ConsentPosition.BANNER_TOP: {
-
+      classes = [...classes, "cookie-confirm--banner", "cookie-confirm--top"];
       break;
     }
     case ConsentPosition.FLOATING_BL: {
-
+      classes = [...classes, "cookie-confirm--floating", "cookie-confirm--bl"];
       break;
     }
     case ConsentPosition.FLOATING_BR: {
-
+      classes = [...classes, "cookie-confirm--floating", "cookie-confirm--br"];
       break;
     }
     case ConsentPosition.FLOATING_CENTRE: {
-
+      classes = [...classes, "cookie-confirm--floating", "cookie-confirm--centre"];
       break;
     }
     case ConsentPosition.FLOATING_TL: {
-
+      classes = [...classes, "cookie-confirm--floating", "cookie-confirm--tl"];
       break;
     }
     case ConsentPosition.FLOATING_TR: {
-
+      classes = [...classes, "cookie-confirm--floating", "cookie-confirm--tr"];
       break;
     }
   }
   // Layout:
   switch (presets.layout) {
     case ConsentLayout.BLOCK: {
-
+      classes = [...classes, "cookie-confirm--block"];
       break;
     }
     case ConsentLayout.EDGELESS: {
-
+      classes = [...classes, "cookie-confirm--edgeless"];
       break;
     }
     case ConsentLayout.ROUNDED: {
-
+      classes = [...classes, "cookie-confirm--rounded"];
       break;
     }
     case ConsentLayout.OUTLINE: {
-
+      classes = [...classes, "cookie-confirm--outline"];
       break;
     }
   }
   // Palette:
+  // const root = document.documentElement;
   switch (presets.palette) {
     case ConsentPalette.FEIN_GREEN: {
-
+      // root.style.setProperty();
       break;
     }
     case ConsentPalette.FEIN_ORANGE: {
@@ -223,4 +234,6 @@ function createCookieConsent(options: IConsentOptions, parent: HTMLElement = doc
       break;
     }
   }
+
+  consentMessage.classList.add(...classes);
 }
