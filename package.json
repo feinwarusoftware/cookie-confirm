@@ -9,7 +9,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node-sass src/styles.scss dist/style.css",
     "clean": "rm -rf dist"
   },
   "dependencies": {},

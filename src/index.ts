@@ -71,6 +71,7 @@ interface IConsentStyle {
 // The actual contents of the cookie popup.
 interface IConsentContent {
   message: string,
+  linkText: string,
   link: string,
   allow: string,
   deny?: string
@@ -84,25 +85,25 @@ interface IConsentPresets {
 }
 
 enum ConsentPosition {
-  BANNER_BOTTOM,
-  BANNER_TOP,
-  FLOATING_TL,
-  FLOATING_TR,
-  FLOATING_BL,
-  FLOATING_BR,
-  FLOATING_CENTRE
+  BANNER_BOTTOM = "BANNER_BOTTOM",
+  BANNER_TOP = "BANNER_TOP",
+  FLOATING_TL = "FLOATING_TL",
+  FLOATING_TR = "FLOATING_TR",
+  FLOATING_BL = "FLOATING_BL",
+  FLOATING_BR = "FLOATING_BR",
+  FLOATING_CENTRE = "FLOATING_CENTRE"
 }
 
 enum ConsentLayout {
-  BLOCK,
-  ROUNDED,
-  EDGELESS,
-  OUTLINE
+  BLOCK = "BLOCK",
+  ROUNDED = "ROUNDED",
+  EDGELESS = "EDGELESS",
+  OUTLINE = "OUTLINE"
 }
 
 enum ConsentPalette {
-  FEIN_ORANGE,
-  FEIN_GREEN
+  FEIN_ORANGE = "FEIN_ORANGE",
+  FEIN_GREEN = "FEIN_GREEN"
 }
 
 const themePresets = {
@@ -121,7 +122,7 @@ interface IConsentOptions {
   presets?: IConsentPresets
 }
 
-function createCookieConsent(options: IConsentOptions, parent: HTMLElement = document.body) { 
+function createCookieMessage(options: IConsentOptions) { 
   // Used to apply all classes to consentMessage in one call.
   let classes: string[] = [];
   // Main consent message div.
@@ -133,10 +134,11 @@ function createCookieConsent(options: IConsentOptions, parent: HTMLElement = doc
   bodySection.classList.add("cookie-confirm--text");
 
   const consentText = document.createElement("p");
-  consentText.nodeValue = options.content.message;
+  consentText.textContent = options.content.message;
 
   const infoLink = document.createElement("a");
-  infoLink.nodeValue = options.content.link;
+  infoLink.textContent = options.content.linkText;
+  infoLink.setAttribute("href", options.content.link);
 
   bodySection.appendChild(consentText);
   bodySection.appendChild(infoLink);
@@ -146,12 +148,12 @@ function createCookieConsent(options: IConsentOptions, parent: HTMLElement = doc
   buttonSection.classList.add("cookie-confirm--buttons");
 
   const allowButton = document.createElement("button");
-  allowButton.nodeValue = options.content.allow;
+  allowButton.textContent = options.content.allow;
   allowButton.setAttribute("action", "allow");
 
   if (options.content.deny) {
     const denyButton = document.createElement("button");
-    denyButton.nodeValue = options.content.deny;
+    denyButton.textContent = options.content.deny;
     allowButton.setAttribute("action", "deny");
 
     buttonSection.appendChild(denyButton);
@@ -170,7 +172,7 @@ function createCookieConsent(options: IConsentOptions, parent: HTMLElement = doc
     palette: ConsentPalette.FEIN_ORANGE
   };
 
-  const presets = { ...(options.presets || {}), ...presetDefaults };
+  const presets = { ...presetDefaults, ...(options.presets || {}) };
 
   // Position:
   switch (presets.position) {
@@ -183,11 +185,11 @@ function createCookieConsent(options: IConsentOptions, parent: HTMLElement = doc
       break;
     }
     case ConsentPosition.FLOATING_BL: {
-      classes = [...classes, "cookie-confirm--floating", "cookie-confirm--bl"];
+      classes = [...classes, "cookie-confirm--floating", "cookie-confirm--bottom-left"];
       break;
     }
     case ConsentPosition.FLOATING_BR: {
-      classes = [...classes, "cookie-confirm--floating", "cookie-confirm--br"];
+      classes = [...classes, "cookie-confirm--floating", "cookie-confirm--bottom-right"];
       break;
     }
     case ConsentPosition.FLOATING_CENTRE: {
@@ -195,11 +197,11 @@ function createCookieConsent(options: IConsentOptions, parent: HTMLElement = doc
       break;
     }
     case ConsentPosition.FLOATING_TL: {
-      classes = [...classes, "cookie-confirm--floating", "cookie-confirm--tl"];
+      classes = [...classes, "cookie-confirm--floating", "cookie-confirm--top-left"];
       break;
     }
     case ConsentPosition.FLOATING_TR: {
-      classes = [...classes, "cookie-confirm--floating", "cookie-confirm--tr"];
+      classes = [...classes, "cookie-confirm--floating", "cookie-confirm--top-right"];
       break;
     }
   }
@@ -236,4 +238,6 @@ function createCookieConsent(options: IConsentOptions, parent: HTMLElement = doc
   }
 
   consentMessage.classList.add(...classes);
+
+  return consentMessage;
 }
